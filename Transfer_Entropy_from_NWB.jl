@@ -1,3 +1,7 @@
+using Pkg
+Pkg.activate("Transfer_entropy")
+Pkg.status()
+
 using Plots
 using DelimitedFiles
 using HDF5
@@ -8,7 +12,7 @@ using NaNStatistics
 plotlyjs()         # or gr() plotlyjs() pyplot()
 
 # open data
-filename = "/Volumes/labs/dmclab/Pierre/NPX_Database/mPFC/Aversion/128515_20191216-probe0.nwb"
+filename = "/Volumes/T7/LeMerre_dataset/mPFC/Context/PL051_20191121-probe0.nwb"
 nwb = h5open(filename, "r")
 
 # Get units spike times, Load jagged arrays
@@ -45,7 +49,7 @@ end
 
 
 # Save csv
-writedlm("/Users/pielem/Desktop/te_128515_20191216-probe0.csv", te)
+writedlm("/Users/pierre/Desktop/te_PL051_20191121-probe0.csv", te)
 
 # plot heatmap
 heatmap(te./0.1, clims=(0, 0.02), c = :thermal)
