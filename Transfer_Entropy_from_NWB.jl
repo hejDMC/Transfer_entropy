@@ -1,3 +1,7 @@
+using Pkg
+Pkg.activate("Transfer_entropy")
+Pkg.status()
+
 using Plots
 using DelimitedFiles
 using HDF5
@@ -8,7 +12,7 @@ using NaNStatistics
 plotlyjs()         # or gr() plotlyjs() pyplot()
 
 # open data
-filename = "/Volumes/labs/dmclab/Pierre/NPX_Database/mPFC/Aversion/128515_20191216-probe0.nwb"
+filename = "/Volumes/labs/dmclab/Pierre/NPX_Database/mPFC/Aversion/152417_20191023-probe0.nwb"
 nwb = h5open(filename, "r")
 
 # Get units spike times, Load jagged arrays
@@ -37,15 +41,15 @@ est = VisitationFrequency(RectangularBinning(4))
 # for loop with multiple threads
 # preallocate]
 te = zeros(length(unit_ids),length(unit_ids))
-Threads.@threads for i = 1:length(unit_ids)
-    for j = 1: length(unit_ids)
+Threads.@threads for i = 1:2#length(unit_ids)
+    for j = 1:2#length(unit_ids)
         te[i,j] = transferentropy(p[i], p[j], est)
     end
 end 
 
 
 # Save csv
-writedlm("/Users/pielem/Desktop/te_128515_20191216-probe0.csv", te)
+writedlm("/Users/pielem/Desktop/te_152417_20191023-probe0.csv", te)
 
 # plot heatmap
 heatmap(te./0.1, clims=(0, 0.02), c = :thermal)
