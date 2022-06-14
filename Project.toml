@@ -1,8 +1,3 @@
-name = "te"
-uuid = "8f44f84a-9260-4eea-a8e0-0676c2900c38"
-authors = ["PierreLeMerre <pierrepierrepierre.lemerre@gmail.com>"]
-version = "0.1.0"
-
 [deps]
 CausalityTools = "5520caf5-2dd7-5c5d-bfcb-a00e56ac49f7"
 DelimitedFiles = "8bb1440f-4735-579b-a4ab-409b98df4dab"
