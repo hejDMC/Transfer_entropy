@@ -7,13 +7,14 @@ using DelimitedFiles
 using HDF5
 using CausalityTools 
 using NaNStatistics
-using Glob 
+using Glob
+using ProgressMeter
  
 # plot backend
 plotlyjs()         # or gr() plotlyjs() pyplot()
 
 # get NWB files
-fileloc = "/Volumes/labs/dmclab/Pierre/NPX_Database/mPFC/Aversion/"
+fileloc = "/Volumes/labs/dmclab/Pierre/NPX_Database/mPFC/Context/"
 filelist = glob("*.nwb",fileloc)
 
 #get PSTH function
@@ -22,9 +23,14 @@ include("simple_psth.jl")
 # Saving folder
 Destfolder = "/Volumes/labs/dmclab/Pierre/Transfert_Entropy/"
 
-# Main loop through files
-for f in filelist
+# Main loop through files, Multithread here
+# progress bar
+prog_bar = Progress(3, 1, "Computing Transfer Entropy...", 50)
 
+#Threads.@threads for f in filelist
+Threads.@threads for ii in 8:10     
+
+    f = filelist[ii]
     # create output file name
     path_elements = split(f,['/','.'])
     csvname = "te_"*path_elements[9]*".csv"
@@ -51,9 +57,9 @@ for f in filelist
     est = VisitationFrequency(RectangularBinning(4))
     # for loop with multiple threads
     # preallocate]
-    te = zeros(2,2) #length(unit_ids),length(unit_ids)
-    Threads.@threads for i = 1: 2#length(unit_ids)
-        for j = 1:2#length(unit_ids)
+    te = zeros(length(unit_ids),length(unit_ids)) 
+    for i = 1: length(unit_ids)
+        for j = 1:length(unit_ids)
             te[i,j] = transferentropy(p[i], p[j], est)
         end
     end 
@@ -63,6 +69,8 @@ for f in filelist
 
     # plot heatmap
     heatmap(te./0.1, clims=(0, 0.02), c = :thermal)
+
+    next!(prog_bar)
 
     end
 end
