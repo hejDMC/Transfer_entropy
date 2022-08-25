@@ -14,7 +14,7 @@ using ProgressMeter
 plotlyjs()         # or gr() plotlyjs() pyplot()
 
 # get NWB files
-fileloc = "/Volumes/labs/dmclab/Pierre/NPX_Database/mPFC/Context/"
+fileloc = "/Volumes/labs/dmclab/Pierre/NPX_Database/mPFC/Passive/"
 filelist = glob("*.nwb",fileloc)
 
 #get PSTH function
@@ -27,13 +27,14 @@ Destfolder = "/Volumes/labs/dmclab/Pierre/Transfert_Entropy/"
 # progress bar
 prog_bar = Progress(3, 1, "Computing Transfer Entropy...", 50)
 
-#Threads.@threads for f in filelist
-Threads.@threads for ii in 8:10     
+Threads.@threads for f in filelist
+#Threads.@threads for ii in 27:31     
 
-    f = filelist[ii]
+    #f = filelist[ii]
     # create output file name
     path_elements = split(f,['/','.'])
     csvname = "te_"*path_elements[9]*".csv"
+    
     # if csv file already exists do nothing
     if isfile(Destfolder*csvname) == 0
 
@@ -63,6 +64,7 @@ Threads.@threads for ii in 8:10
             te[i,j] = transferentropy(p[i], p[j], est)
         end
     end 
+
 
     # Save csv
     writedlm(Destfolder*csvname, te)
