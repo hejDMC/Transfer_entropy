@@ -12,7 +12,7 @@ using NaNStatistics
 plotlyjs()         # or gr() plotlyjs() pyplot()
 
 # open data
-filename = "/Volumes/T7/LeMerre_dataset/mPFC/Context/PL051_20191121-probe0.nwb"
+filename = "/Volumes/T7/LeMerre_dataset/mPFC/Aversion/273858_20200925-probe0.nwb"
 nwb = h5open(filename, "r")
 
 # Get units spike times, Load jagged arrays
@@ -42,14 +42,13 @@ est = VisitationFrequency(RectangularBinning(4))
 # preallocate]
 te = zeros(length(unit_ids),length(unit_ids))
 Threads.@threads for i = 1:length(unit_ids)
-    for j = 1: length(unit_ids)
+    for j = 1:length(unit_ids)
         te[i,j] = transferentropy(p[i], p[j], est)
     end
 end 
 
-
 # Save csv
-writedlm("/Users/pierre/Desktop/te_PL051_20191121-probe0.csv", te)
+writedlm("/Users/pierre/Desktop/te_273858_20200925-probe0.csv", te)
 
 # plot heatmap
 heatmap(te./0.1, clims=(0, 0.02), c = :thermal)
