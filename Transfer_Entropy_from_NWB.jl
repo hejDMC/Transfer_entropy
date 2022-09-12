@@ -8,7 +8,7 @@ using HDF5
 using CausalityTools 
 using NaNStatistics
 using Glob
-using ProgressMeter
+#using ProgressMeter
  
 # plot backend
 plotlyjs()         # or gr() plotlyjs() pyplot()
@@ -25,7 +25,7 @@ Destfolder = "/Volumes/labs/dmclab/Pierre/Transfert_Entropy/"
 
 # Main loop through files, Multithread here
 # progress bar
-prog_bar = Progress(3, 1, "Computing Transfer Entropy...", 50)
+#prog_bar = Progress(3, 1, "Computing Transfer Entropy...", 50)
 
 Threads.@threads for f in filelist
 #Threads.@threads for ii in 27:31     
@@ -72,7 +72,7 @@ Threads.@threads for f in filelist
     # plot heatmap
     heatmap(te./0.1, clims=(0, 0.02), c = :thermal)
 
-    next!(prog_bar)
+    #next!(prog_bar)
 
     end
 end

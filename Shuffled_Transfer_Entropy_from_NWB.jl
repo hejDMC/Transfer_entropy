@@ -8,7 +8,7 @@ using HDF5
 using CausalityTools 
 using NaNStatistics
 using Glob
-using ProgressMeter
+#using ProgressMeter
  
 # plot backend
 plotly()         # or gr() plotlyjs() pyplot()
@@ -25,10 +25,11 @@ Destfolder = "/Volumes/labs/dmclab/Pierre/Transfert_Entropy/Passive/Shuffled/"
 
 num_of_iterations = 30
 
-f = filelist[1]
+f = filelist[3]
 println("Working on "*f)
 
 # for loop with multiple threads
+#k = 1
 Threads.@threads for k in 1:num_of_iterations
     
     # create output file name
@@ -57,9 +58,8 @@ Threads.@threads for k in 1:num_of_iterations
         est = VisitationFrequency(RectangularBinning(4))
         te = zeros(length(unit_ids),length(unit_ids)) 
         for i = 1: length(unit_ids)
-            for j = 1:length(unit_ids)
-            
-                te[i,j] = transferentropy(circshift(p[i],rand(1:length(p))), p[j], est)
+            for j = 1:length(unit_ids)         
+                te[i,j] = transferentropy(circshift(p[i][1],rand(1:length(p))), p[j][1], est)
             end
         end 
 
